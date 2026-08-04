@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="movies.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="img/Logo.png" alt="logo" />
+      </div>
+
+      <div class="search-container">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search...."
+          onkeyup="searchFunction()"
+          autocomplete="on"
+        />
+      </div>
+      <div class="category">
+        <button class="drop-btn" id="categoryBtn">
+          Genres <span class="arrow">&#9662</span>
+        </button>
+        
+        <div class="drop-content" id="categoryMenu">
+          <div class="drop-grid">
+         <a href="#" onclick="filterGenre('Action')">Action</a>
+         <a href="#" onclick="filterGenre('Anime')">Anime</a>
+         <a href="#" onclick="filterGenre('Comedies')">Comedies</a>
+         <a href="#" onclick="filterGenre('Documentaries')">Documentaries</a>
+         <a href="#" onclick="filterGenre('Dramas')">Dramas</a>
+         <a href="#" onclick="filterGenre('Horror')">Horror</a>
+         <a href="#" onclick="filterGenre('Sci-Fi')">Sci-Fi</a>
+         <a href="#" onclick="filterGenre('Thriller')">Thriller</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bars">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+
+      <ul class="navlist">
+        <li><a href="#index.html">Home</a></li>
+        <li><a href="#movies.html">Movies</a></li>
+        <li><a href="#series.html">Series</a></li>
+        <li><a href="#contact.html">Contact</a></li>
+        <li><a href="#about.html">About</a></li>
+      </ul>
+    </nav>
+
+    <h2>Treading Movies</h2>
+    <div class="slider-cont">
+      <div class="slide slide-1">
+        <!-- <img src="img/Img(1).jpg" alt="" /> -->
+        <h1>Slide One</h1>
+      </div>
+
+      <div class="slide slide-2">
+        <!-- <img src="img/Img(2).jpg" alt="" /> -->
+        <h1>Slide Two</h1>
+      </div>
+
+      <div class="slide slide-3">
+        <!-- <img src="img/Img(3).jpg" alt="" /> -->
+        <h1>Slide Three</h1>
+      </div>
+
+      <div class="slide slide-4">
+        <!-- <img src="img/Img(4).jpg" alt="" /> -->
+        <h1>Slide Four</h1>
+      </div>
+    </div>
+
+    <button id="prev" class="nav-btn left">❮</button>
+    <button id="next" class="nav-btn right">❯</button>
+
+
+    <section class="movies-section">
+      <p class="movie-type">Movies</p>
+      <section class="movie-card-1"></section>
+     <button id="movieMore">More Movies</button>
+    </section>
+  
+
+    
+    <section class="movies-section">
+       <p class="movie-type">Series</p>
+      <section class="movie-card-1" id="series-container"></section>
+      <button id="seriesMore">More Series</button>
+    </section>
+
+    <div class="movie-modal">
+      <div class="modal-content">
+        <span class="close" id="close-movie-modal-btn">&times;</span>
+        <div class="modal-body">
+          <div class="modal-image">
+            <img src="./img/card1.png" alt="" />
+          </div>
+          <div class="modal-details">
+            <h2 class="modal-title"></h2>
+            <p class="modal-description"></p>
+            <p class="modal-release-date"></p>
+            <p class="modal-rating"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="series-modal">
+      <div class="modal-content">
+        <span class="close" id="close-series-modal-btn">&times;</span>
+        <div class="modal-body">
+          <div class="modal-image">
+            <img src="./img/card1.png" alt="" />
+          </div>
+          <div class="modal-details">
+            <h2 class="modal-title"></h2>
+            <p class="modal-description"></p>
+            <p class="modal-release-date"></p>
+            <p class="modal-rating"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+      <section id="faq">
+            How do I search?
+
+            How are movies updated?
+
+            Where does the data come from?
+
+            Can I watch movies here?
+      </section>
+
+      <section id="contact">
+      ...
+      </section>
+
+      <section id="about">
+      ...
+      </section>
+    <script src="movies.js"></script>
+  </body>
+</html>

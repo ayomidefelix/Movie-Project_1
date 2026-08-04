@@ -1,107 +1,42 @@
-"use strict";
+const mainPage = document.getElementById("main-login-page");
+const returningPage = document.getElementById("returning-user-page");
+const mainForm = document.getElementById("main-form");
+const resetLink = document.getElementById("reset-session");
 
-const hamburger = document.querySelector(".bars");
-const navList = document.querySelector(".navlist");
+// Function to handle showing the correct page
+function init() {
+  const isReturning = localStorage.getItem("isReturningUser");
 
-
-const allSlides = document.querySelectorAll(".slide");
-const nextBtn = document.getElementById("next");
-const prevBtn = document.getElementById("prev");
-
-
-const categoryBtn = document.getElementById("categoryBtn");
-const categoryMenu = document.getElementById("categoryMenu");
-
-
-
-
-console.log(hamburger, navList);
-
-function handleNavDisplay() {
-  hamburger.classList.toggle("hamburgerIsActive");
-  navList.classList.toggle("active");
-}
-
-hamburger.addEventListener("click", handleNavDisplay);
-
-// window.addEventListener("click", function () {
-//   if (hamburger.classList.contains("show")) {
-//     hamburger.classList.remove("show");
-//   }
-// });
-
-
-// show first slide
-let currentSlide = 0;
-let autoSlide;
-// allSlides[currentSlide].style.opacity = 1;
-showSlide(currentSlide);
-
-// function to display a slide
-function showSlide(index) {
-  for (let i = 0; i < allSlides.length; i++) {
-    allSlides[i].style.opacity = 0;
+  if (isReturning === "true") {
+    mainPage.classList.add("hidden");
+    returningPage.classList.remove("hidden");
+  } else {
+    mainPage.classList.remove("hidden");
+    returningPage.classList.add("hidden");
   }
-
-  allSlides[index].style.opacity = 1;
 }
 
-// next slide
-function moveSlide() {
-  currentSlide++;
-
-  if (currentSlide >= allSlides.length) {
-    currentSlide = 0;
-  }
-
-  showSlide(currentSlide);
-}
-
-// previous slide
-function prevSlide() {
-  currentSlide--;
-
-  if (currentSlide < 0) {
-    currentSlide = allSlides.length - 1;
-  }
-
-  showSlide(currentSlide);
-}
-
-// auto slide
-function startAutoSlide() {
-  autoSlide = setInterval(moveSlide, 2000);
-}
-
-//stop auto sliding
-function stopAutoSlide() {
-  clearInterval(autoSlide);
-}
-
-// button events
-nextBtn.addEventListener("click", () => {
-  stopAutoSlide();
-  moveSlide();
-  startAutoSlide();
+// Event: First time login form
+mainForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // Save state and refresh
+  localStorage.setItem("isReturningUser", "true");
+  window.location.href = "movies.html";
 });
 
-prevBtn.addEventListener("click", () => {
-  stopAutoSlide();
-  prevSlide();
-  startAutoSlide();
+// Event: Reset (to go back to being a "new" user)
+resetLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  localStorage.removeItem("isReturningUser");
+  window.location.reload();
 });
 
-startAutoSlide();
+// Run on load
+init();
 
+returningPage.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-// Toggle the dropdown
-categoryBtn.addEventListener("click", function (e) {
-  categoryMenu.classList.toggle("show");
-  e.stopPropagation();
-});
-
-window.addEventListener("click", function () {
-  if (categoryMenu.classList.contains("show")) {
-    categoryMenu.classList.remove("show");
-  }
+  localStorage.setItem("isReturningUser", "true");
+  window.location.href = "movies.html";
 });
