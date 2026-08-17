@@ -75,7 +75,7 @@ nav img {
 }
 
 #searchInput {
-  width: 150%;
+  width: 100%;
   padding: 12px;
   background-color: #1a1a1a;
   border: 2px solid #ed212d;
@@ -201,6 +201,22 @@ nav img {
   font-size: 1rem;
   text-decoration: none;
 }
+
+.navlist button {
+  background: #ed212d;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.navlist button i {
+  margin-left: 6px;
+}
+
+
 nav.bars {
   display: flex;
   border: 10px solid red;
@@ -222,18 +238,78 @@ nav.bars {
   transition: all 1s ease-out;
 }
 
+.navlist button{
+  display: block;
+  width: 120px;
+  cursor: pointer;
+  /* margin: 30px auto 60px; */
+  padding:12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  transition: 2s ease;
+}
+
+.navlist button:hover{
+  background:#ed212d;
+  color:white;
+}
+
 @media screen and (max-width: 512px) {
   nav {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
   }
 
+  nav .logo {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+}
+
+.search-container {
+  flex: 1;
+  min-width: 0;
+  padding: 5px;
+}
+
+#searchInput {
+  width: 100%;
+}
+
+.category {
+  margin: 0;
+  flex-shrink: 0;
+}
+
   .navlist {
-    display: none;
+    display: flex;
+    margin-left: auto;
+    flex-shrink: 0;
   }
 
   .bars {
-    display: flex;
+    display: none;
   }
+
+  .navlist button {
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.navlist button .signout-text {
+  display: none;
+}
+
+.navlist button i {
+  margin: 0;
+  font-size: 1rem;
+}
 
   .navlist.active {
     display: flex;
@@ -245,7 +321,7 @@ nav.bars {
     padding: 10px;
   }
 
-  .bars.hamburgerIsActive div:nth-child(2) {
+  /* .bars.hamburgerIsActive div:nth-child(2) {
     transform: translateX(300%);
   }
 
@@ -257,11 +333,11 @@ nav.bars {
   .bars.hamburgerIsActive div:nth-child(3) {
     rotate: -45deg;
     transform: translateY(-50%);
-  }
+  } */
 }
 
 .slide {
-  height: 80vh;
+  height: 100%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -295,22 +371,22 @@ nav.bars {
 
 .slide-1 {
   opacity: 0;
-  background-image: url(./img/Img\(1\).jpg);
+  background-image: url(./img/spider-man.webp);
 }
 
 .slide-2 {
   opacity: 0;
-  background-image: url(./img/Img\(2\).jpg);
+  background-image: url(./img/project-hail-mary.jpg);
 }
 
 .slide-3 {
   opacity: 0;
-  background-image: url(./img/Img\(3\).jpg);
+  background-image: url(./img/The-odyssey.webp);
 }
 
 .slide-4 {
   opacity: 0;
-  background-image: url(./img/Img\(4\).jpg);
+  background-image: url(./img/Avengers-Doomsday.webp);
 }
 /* .slider-cont img {
   max-height: 30px;
@@ -536,7 +612,7 @@ nav.bars {
 @media screen and (max-width:400px){
   .movie-card-1,
   #series-container{
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(1,1fr);
   }
 
 }  

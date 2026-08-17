@@ -40,3 +40,12 @@ returningPage.addEventListener("submit", (e) => {
   localStorage.setItem("isReturningUser", "true");
   window.location.href = "movies.html";
 });
+
+
+// const signOutBtn = document.getElementById("signOutBtn");
+// signOutBtn.addEventListener("click", () => {
+//   localStorage.removeItem("isReturningUser");
+//   window.location.href = "index.html";
+// });
+
+// localStorage.setItem("isReturningUser", "true");

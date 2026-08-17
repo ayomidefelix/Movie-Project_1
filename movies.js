@@ -3,6 +3,12 @@
 let allMovies = [];
 let allSeries = [];
 
+let moviePage = 1;
+let seriesPage = 1;
+
+const movieMore = document.getElementById("movieMore");
+const seriesMore = document.getElementById("seriesMore");
+
 const hamburger = document.querySelector(".bars");
 const navList = document.querySelector(".navlist");
 
@@ -40,6 +46,13 @@ const seriesModalRelease = document.querySelector(
 );
 const seriesModalRating = document.querySelector(".series-modal .modal-rating");
 
+const signOutBtn = document.getElementById("signOutBtn");
+signOutBtn.addEventListener("click", () => {
+  window.location.href = "index.html";
+});
+
+localStorage.setItem("isReturningUser", "true");
+
 console.log(hamburger, navList);
 
 function handleNavDisplay() {
@@ -63,68 +76,103 @@ hamburger.addEventListener("click", handleNavDisplay);
 
 // show first slide
 
-const genreMap = {
-  28: "Action",
-  16: "Anime",
-  35: "Comedies",
-  99: "Documentaries",
-  18: "Dramas",
-  27: "Horror",
-  878: "Sci-Fi",
-  53: "Thriller",
+// const genreMap = {
+//   28: "Action",
+//   16: "Anime",
+//   35: "Comedies",
+//   99: "Documentaries",
+//   18: "Dramas",
+//   27: "Horror",
+//   878: "Sci-Fi",
+//   53: "Thriller",
+// };
+
+const movieGenreMap = {
+  Action: 28,
+  Anime: 16,
+  Comedies: 35,
+  Documentaries: 99,
+  Dramas: 18,
+  Horror: 27,
+  "Sci-Fi": 878,
+  Thriller: 53,
 };
 
+const seriesGenreMap = {
+  Action: 10759,
+  Anime: 16,
+  Comedies: 35,
+  Documentaries: 99,
+  Dramas: 18,
+  Horror: 27,
+  "Sci-Fi": 10765,
+  Thriller: 9648,
+};
+
+// function filterGenre(name) {
+//   const genreId = Number(
+//     Object.keys(genreMap).find((id) => genreMap[id] === name),
+//   );
+
+//   // // Movies
+//   // const filteredMovies = allMovies.filter((movie) =>
+//   //   movie.genre_ids.includes(genreId),
+//   // );
+
+//   // displayAllMovies(filteredMovies);
+
+//   // // Series
+//   // const filteredSeries = allSeries.filter((series) =>
+//   //   series.genre_ids.includes(genreId),
+//   // );
+
+//   displayAllSeries(filteredSeries);
+// }
+
 function filterGenre(name) {
-  const genreId = Number(
-    Object.keys(genreMap).find((id) => genreMap[id] === name),
+  const movieGenreId = movieGenreMap[name];
+  const seriesGenreId = seriesGenreMap[name];
+
+  const filteredMovies = allMovies.filter((movie) =>
+    movie.genre_ids.includes(movieGenreId),
   );
 
-  // // Movies
-  // const filteredMovies = allMovies.filter((movie) =>
-  //   movie.genre_ids.includes(genreId),
-  // );
+  const filteredSeries = allSeries.filter((series) =>
+    series.genre_ids.includes(seriesGenreId),
+  );
 
-  // displayAllMovies(filteredMovies);
-
-  // // Series
-  // const filteredSeries = allSeries.filter((series) =>
-  //   series.genre_ids.includes(genreId),
-  // );
-
+  displayAllMovies(filteredMovies);
   displayAllSeries(filteredSeries);
+
+  categoryMenu.classList.remove("show");
 }
 
 async function searchFunction() {
+  const value = document.getElementById("searchInput").value.trim();
 
-const value = document
-.getElementById("searchInput")
-.value
-.trim();
+  if (value === "") {
+    displayAllMovies(allMovies);
+    displayAllSeries(allSeries);
+    return;
+  }
 
-if(value === ""){
-displayAllMovies(allMovies);
-displayAllSeries(allSeries);
-return;
-}
+  const movieRes = await fetch(
+    `https://api.themoviedb.org/3/search/movie?query=${value}&language=en-US&page=1`,
+    options,
+  );
 
-const movieRes = await fetch(
-`https://api.themoviedb.org/3/search/movie?query=${value}&language=en-US&page=1`,
-options
-);
+  const movieData = await movieRes.json();
 
-const movieData = await movieRes.json();
+  displayAllMovies(movieData.results);
 
-displayAllMovies(movieData.results);
+  const seriesRes = await fetch(
+    `https://api.themoviedb.org/3/search/tv?query=${value}&language=en-US&page=1`,
+    options,
+  );
 
-const seriesRes = await fetch(
-`https://api.themoviedb.org/3/search/tv?query=${value}&language=en-US&page=1`,
-options
-);
+  const seriesData = await seriesRes.json();
 
-const seriesData = await seriesRes.json();
-
-displayAllSeries(seriesData.results);
-
+  displayAllSeries(seriesData.results);
 }
 let currentSlide = 0;
 let autoSlide;
@@ -229,19 +277,42 @@ function displayAllMovies(movies) {
   movieCont.innerHTML = mapped.join("");
 }
 
-async function getAllMovies(id) {
+// async function getAllMovies(id) {
+//   const res = await fetch(
+//     "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
+//     options,
+//   );
+
+//   const data = await res.json();
+//   console.log(data);
+//   allMovies = [...allMovies, ...data.results];
+//   displayAllMovies(allMovies);
+// }
+
+// getAllMovies();
+
+async function getAllMovies() {
   const res = await fetch(
-    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
+    `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${moviePage}&sort_by=popularity.desc`,
     options,
   );
 
   const data = await res.json();
-  console.log(data);
- allMovies = [...allMovies, ...data.results];
+
+  console.log("Movie page:", moviePage);
+  console.log(data.results);
+
+  allMovies = [...allMovies, ...data.results];
+
   displayAllMovies(allMovies);
 }
 
 getAllMovies();
+
+movieMore.addEventListener("click", () => {
+  moviePage++;
+  getAllMovies();
+});
 
 async function getMovieDetails(id) {
   const res = await fetch(
@@ -414,19 +485,42 @@ function displayAllSeries(series) {
   seriesCont.innerHTML = mapped.join("");
 }
 
-async function getAllSeries(id) {
+// async function getAllSeries(id) {
+//   const res = await fetch(
+//     "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
+//     options,
+//   );
+
+//   const data = await res.json();
+//   console.log(data);
+//   allSeries = [...allSeries, ...data.results];
+//   displayAllSeries(allSeries);
+// }
+
+// getAllSeries();
+
+async function getAllSeries() {
   const res = await fetch(
-    "https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc",
+    `https://api.themoviedb.org/3/discover/tv?include_adult=false&include_video=false&language=en-US&page=${seriesPage}&sort_by=popularity.desc`,
     options,
   );
 
   const data = await res.json();
-  console.log(data);
- allSeries = [...allSeries, ...data.results];
+
+  console.log("Series page:", seriesPage);
+  console.log(data.results);
+
+  allSeries = [...allSeries, ...data.results];
+
   displayAllSeries(allSeries);
 }
 
 getAllSeries();
+
+seriesMore.addEventListener("click", () => {
+  seriesPage++;
+  getAllSeries();
+});
 
 async function getSeriesDetails(id) {
   const res = await fetch(
@@ -475,3 +569,4 @@ seriesCont.addEventListener("click", async function (e) {
 closeseriesModalBtn.addEventListener("click", () => {
   seriesModal.classList.remove("is-open");
 });
+
